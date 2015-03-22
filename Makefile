@@ -49,7 +49,8 @@ CONFIG_EXT_CLK = n
 CONFIG_FTP_PROTECT = n
 CONFIG_WOWLAN = n
 
-CONFIG_PLATFORM_I386_PC = y
+CONFIG_PLATFORM_ARM_RPI = y
+CONFIG_PLATFORM_I386_PC = n
 CONFIG_PLATFORM_ANDROID_X86 = n
 CONFIG_PLATFORM_JB_X86 = n
 CONFIG_PLATFORM_ARM_S3C2K4 = n
@@ -875,6 +876,15 @@ ARCH := arm
 CROSS_COMPILE := /home/android_sdk/Telechips/v13.03_r1-tcc-android-4.2.2_ds_patched/prebuilts/gcc/linux-x86/arm/arm-eabi-4.6/bin/arm-eabi-
 KSRC := /home/android_sdk/Telechips/v13.03_r1-tcc-android-4.2.2_ds_patched/kernel
 MODULE_NAME := wlan
+endif
+
+ifeq ($(CONFIG_PLATFORM_ARM_RPI), y)
+EXTRA_CFLAGS += -DCONFIG_LITTLE_ENDIAN
+ARCH := arm
+CROSS_COMPILE ?=
+KVER := $(shell uname -r)
+KSRC ?= /lib/modules/$(KVER)/build
+MODDESTDIR := /lib/modules/$(KVER)/kernel/drivers/net/wireless/
 endif
 
 ifeq ($(CONFIG_PLATFORM_ARM_RK2818), y)
